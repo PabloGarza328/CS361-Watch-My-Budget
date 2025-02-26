@@ -1,9 +1,9 @@
 from pymongo import MongoClient
 import time
 
-def PrintBudget(budgetingAppCollection, user_id):
+def PrintBudget(users, user_id):
 
-    document = budgetingAppCollection.find_one({"user_id": user_id})
+    document = users.find_one({"_id": user_id})
     categories = document['categories']
 
     print("\nThis is your current monthly budget:\n")

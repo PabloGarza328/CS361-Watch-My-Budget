@@ -1,7 +1,8 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 
-def DefineCategories(budgetingAppCollection, user_id):
+def DefineCategories(users, user_id):
     print(
         "\nThe current categories are: Housing, Food, Transportation and Lifestyle. \n" 
         "You will first define how many categories you want in total, \n"
@@ -12,7 +13,7 @@ def DefineCategories(budgetingAppCollection, user_id):
         try: 
             category_Number = int(category_input)
             if category_Number > 0 and category_Number < 11:
-                break;
+                break
             else:
                 print("Incorrect input")
         except:
@@ -25,13 +26,14 @@ def DefineCategories(budgetingAppCollection, user_id):
         category_Name = input(f"Category #{i+1}:")
          # Add each category as a sub-document with the required fields
         category = {
+            "categoryID" : ObjectId(),
             "category_name": category_Name,
             "budget_amount": None,  
             "spent": 0 
         }
         categories.append(category)  # Add category sub-document to the list
-    budgetingAppCollection.update_one(
-        {"user_id": user_id},
+    users.update_one(
+        {"_id": user_id},
         {"$set": {"categories": categories}}
     )
     

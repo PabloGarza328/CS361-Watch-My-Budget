@@ -1,9 +1,9 @@
 from pymongo import MongoClient
 import time
 
-def defineBudgets(budgetingAppCollection, user_id):
+def defineBudgets(users, user_id):
     
-    document = budgetingAppCollection.find_one({"user_id": user_id})
+    document = users.find_one({"_id": user_id})
     categories = document["categories"]
 
     for category in categories:
@@ -14,9 +14,8 @@ def defineBudgets(budgetingAppCollection, user_id):
                 break
             except ValueError:
                 print("Invalid input. Please enter a valid number")
-    
-    budgetingAppCollection.update_one(
-        {"user_id": user_id},
+    users.update_one(
+        {"_id": user_id},
         {"$set": {"categories": categories}}
     )
 
